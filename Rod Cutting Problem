@@ -1,0 +1,29 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+
+// Rod Cutting
+// 길이 i+1인 막대의 가격
+int rodCutting(vector<int> price, int n) {
+    // 길이 i인 막대의 최대 수익
+    vector<int> dp(n + 1, 0);
+
+    // 막대 길이 i를 기준으로 최대 수익 계산
+    for (int i = 1; i <= n; i++) {
+        // 가능한 모든 자르기 위치를 시도
+        for (int cut = 1; cut <= i; cut++) {
+            // cut 길이의 가격 + 남은 부분(i-cut)의 최대 수익
+            dp[i] = max(dp[i], price[cut - 1] + dp[i - cut]);
+        }
+    }
+    return dp[n];
+}
+
+int main() {
+    // 길이 i+1일 때 가격
+    vector<int> price = {1, 5, 8, 9, 10, 17, 17, 20};
+    int n = 8;
+
+    cout << "최대 수익: " << rodCutting(price, n) << endl;
+    return 0;
+}
